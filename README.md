@@ -28,3 +28,4 @@ Bears, bees and beer  — это приложение, которое помог
 
 ## Как запустить проект  
 //TODO
+Датасет: https://www.kaggle.com/datasets/jtrofe/beer-recipes/data
