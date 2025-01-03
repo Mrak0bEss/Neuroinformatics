@@ -11,9 +11,12 @@ services:
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/beerdb1"
     volumes:
       - ./app:/app
+    networks:
+      - beer_network
+
   db:
     image: postgres:15
-    container_name: postgres_beerdb1  
+    container_name: postgres_beerdb1
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -22,6 +25,9 @@ services:
       - "5432:5432"
     volumes:
       - beerdb_data:/var/lib/postgresql/data
+    networks:
+      - beer_network
+
   django:
     build:
       context: ./front
@@ -32,6 +38,13 @@ services:
       - "8001:8080"
     volumes:
       - ./front:/front
+    environment:
+      FASTAPI_URL: "http://app:8000"  # Используем имя сервиса app
+    networks:
+      - beer_network
 
 volumes:
   beerdb_data:
+
+networks:
+  beer_network:
