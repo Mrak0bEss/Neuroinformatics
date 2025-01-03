@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beer Recommendation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url("{% static 'images/front.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+    <style>
+        .custom-button {
+            text-decoration: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 3px solid #FF8C00; /* Оранжевая граница */
+            background-color: transparent; /* Прозрачный фон */
+            color: #FF8C00; /* Оранжевый текст */
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 16px; /* Размер текста */
+            font-weight: bold; /* Жирный текст */
+            width: 100%; /* Растягивается на всю ширину родителя */
+            box-sizing: border-box; /* Учитывает padding в ширине */
+            text-align: center; /* Центрирование текста */
+            display: block; /* Блочный элемент */
+            transition: box-shadow 0.3s ease, color 0.3s ease;
+        }
+
+        .custom-button:hover {
+            text-decoration: none;
+            box-shadow: 0 0 0 4px #ff8c002d; /* Оранжевая тень */
+            color: #FF8C00; /* Оранжевый текст при наведении */
+            background-color: transparent; /* Прозрачный фон */
+        }
+
+        .custom-button:active {
+            text-decoration: none;
+            box-shadow: none; /* Убираем тень при нажатии */
+            background-color: transparent; /* Прозрачный фон */
+            color: #FF8C00; /* Оранжевый текст */
+        }
+
+        .recommendation-button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 3px solid #FF8C00; /* Оранжевая граница */
+            background-color: #FF8C00; /* Прозрачный фон */
+            color: #ffffff; /* Оранжевый текст */
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 16px; /* Размер текста */
+            font-weight: bold; /* Жирный текст */
+        }
+
+        .recommendation-button:hover {
+            background-color: #e67300; /* Более тёмная оранжевая заливка при наведении */
+            box-shadow: 0 0 8px rgba(255, 140, 0, 0.5); /* Мягкая оранжевая тень при наведении */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Подбор Пива</h1>
+    <form id="recommendForm" method="POST">
+        <label for="age">Ваш возраст</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="gender">Пол</label>
+        <select id="gender" name="gender" required>
+            <option value="">Выберите из списка</option>
+            <option value="м">М</option>
+            <option value="ж">Ж</option>
+        </select>
+
+        <label for="location">Город</label>
+        <select id="citySelect" name="location" required>
+            <option value="">Выберите из списка</option>
+            <option value="Москва">Москва</option>
+            <option value="Питер">Питер</option>
+            <option value="Казань">Казань</option>
+            <option value="Белгород">Белгород</option>
+        </select>
+
+        <button type="submit" class="recommendation-button">Получить рекомендацию</button>
+    </form>
+
+    <a href="{% url 'add_beer_page' %}" class="custom-button">
+        Добавить новое пиво
+    </a>
+
+    <div class="result" id="result" style="display: none;">
+        <h2>Рекомендация</h2>
+        <pre id="output"></pre>
+    </div>
+    <div class="result" id="beerResult" style="display: none;">
+        <h2>Результат добавления</h2>
+        <pre id="beerOutput"></pre>
+    </div>
+</div>
+
+<script>
+    const citySelect = document.getElementById('citySelect');
+    const otherCityInput = document.getElementById('otherCity');
+    const otherCityLabel = document.getElementById('otherCityLabel');
+
+    citySelect.addEventListener('change', function () {
+        if (this.value === "other") {
+            otherCityInput.style.display = 'block';
+            otherCityLabel.style.display = 'block';
+        } else {
+            otherCityInput.style.display = 'none';
+            otherCityLabel.style.display = 'none';
+        }
+    });
+
+    const form = document.getElementById('recommendForm');
+    const resultDiv = document.getElementById('result');
+    const output = document.getElementById('output');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('http://localhost:8000/recommend/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            resultDiv.style.display = 'block';
+            output.textContent = JSON.stringify(result, null, 2);
+        } catch (error) {
+            resultDiv.style.display = 'block';
+            output.textContent = error.message;
+        }
+    });
+
+    const addBeerForm = document.getElementById('addBeerForm');
+    const beerResultDiv = document.getElementById('beerResult');
+    const beerOutput = document.getElementById('beerOutput');
+
+    addBeerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(addBeerForm);
+        const beerData = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('http://localhost:8000/add_beer/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(beerData),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            beerResultDiv.style.display = 'block';
+            beerOutput.textContent = JSON.stringify(result, null, 2);
+        } catch (error) {
+            beerResultDiv.style.display = 'block';
+            beerOutput.textContent = error.message;
+        }
+    });
+</script>
+</body>
+</html>
