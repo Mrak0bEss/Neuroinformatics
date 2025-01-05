@@ -9,28 +9,27 @@ import numpy as np
 import os
 from fastapi.middleware.cors import CORSMiddleware
 
-# Приложение FastAPI
 app = FastAPI(
     title="Beer Recommendation API",
     description="Рекомендуем сорта пива на основе ваших данных и предоставляем информацию о наличии",
     version="1.1",
 )
 
-# Разрешенные домены (замените на домен вашего фронтенда)
+
 origins = [
-    "http://localhost:8001",  # Если фронтенд на React/Vue
-    "http://127.0.0.1:8001",  # Локальная разработка  
+    "http://localhost:8001",  
+    "http://127.0.0.1:8001", 
 ]
 
-# Добавляем CORS middleware
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Разрешенные домены
-    allow_credentials=True,  # Разрешение на отправку куки/авторизационных данных
-    allow_methods=["*"],  # Разрешенные методы (GET, POST, PUT, DELETE и т.д.)
-    allow_headers=["*"],  # Разрешенные заголовки
+    allow_origins=origins, 
+    allow_credentials=True,  
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
-# База данных
+
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/beerdb1")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -46,12 +45,9 @@ class Beer(Base):
 
 Base.metadata.create_all(bind=engine)
 
-
-# Загрузка модели
 model_path = "model.joblib"
 model = joblib.load(model_path)
 
-# Категории
 valid_genders = {"м": "Male", "ж": "Female"}
 valid_locations = ["Москва", "Питер", "Казань", "Белгород"]
 
