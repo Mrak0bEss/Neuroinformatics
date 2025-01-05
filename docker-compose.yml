@@ -39,7 +39,7 @@ services:
     volumes:
       - ./front:/front
     environment:
-      FASTAPI_URL: "http://app:8000"  # Используем имя сервиса app
+      FASTAPI_URL: "http://app:8000"  
     networks:
       - beer_network
 
