@@ -18,7 +18,7 @@ jobs:
     - name: Login to Docker Registry
       uses: docker/login-action@v2
       with:
-        registry: beerproject.cr.cloud.ru  # Убедитесь, что адрес реестра правильный
+        registry: beerprokect.cr.cloud.ru  # Убедитесь, что адрес реестра правильный
         username: 94ccfafc73047322e9fc54040339e1a9
         password: 2e467a31ed3724a80aea476b4e4e0f89
 
@@ -27,4 +27,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: beerproject.cr.cloud.ru/neuroinformatics-app:latest  # Замените на ваш репозиторий и тег
+        tags: beerprokect.cr.cloud.ru/neuroinformatics-app:latest  # Замените на ваш репозиторий и тег
