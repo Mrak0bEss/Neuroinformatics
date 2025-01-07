@@ -17,7 +17,12 @@ Bears, bees and beer  — это приложение, которое помог
 Расположение (location): города, такие как Москва, Казань, Белгород, Питер
 
 ## Стек технологий  
- Python, PostgreSQL, Docker, Java, Spring
+**Бэкенд:** FastAPI, SQLAlchemy, PostgreSQL, joblib, scikit-learn, pandas / numpy, uvicorn, psycopg2-binary
+**Фронтенд:** Django
+**Контейнеризация и инфраструктура:** Docker, Docker Compose, Cloud.ru Artifact Registry, Cloud.ru 
+**Машинное обучение:** Python  3.10 
+**CI/CD:** GitHub Actions,
+**Сетевые технологии:** SSH, CORS
 
 ## Участники команды  
 1. **[Армишев Кирилл Константинович](https://github.com/armishev)**  
@@ -32,6 +37,5 @@ Bears, bees and beer  — это приложение, которое помог
    - Роль: Архитектор
    - Задачи: Описание архитектуры, модель
 
-
 ## Как запустить проект  
-//TODO
+Проект был развернут в Cloud.ru по адресу: [http://176.123.167.128/recommend/](http://176.123.167.128/recommend/). В целях экономии ресурсов виртуальная машина временно приостановлена. Если вы хотите открыть проект, пожалуйста, свяжитесь с нами через [Telegram](https://t.me/jfiweio).
