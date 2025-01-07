@@ -18,12 +18,12 @@ Bears, bees and beer  — это приложение, которое помог
 Расположение (location): города, такие как Москва, Казань, Белгород, Питер
 
 ## Стек технологий  
-**Бэкенд:** FastAPI, SQLAlchemy, PostgreSQL, joblib, scikit-learn, pandas / numpy, uvicorn, psycopg2-binary
-**Фронтенд:** Django
-**Контейнеризация и инфраструктура:** Docker, Docker Compose, Cloud.ru Artifact Registry, Cloud.ru 
-**Машинное обучение:** Python  3.10 
-**CI/CD:** GitHub Actions
-**Сетевые технологии:** SSH, CORS
+- **Бэкенд:** FastAPI, SQLAlchemy, PostgreSQL, joblib, scikit-learn, pandas / numpy, uvicorn, psycopg2-binary
+- **Фронтенд:** Django
+- **Контейнеризация и инфраструктура:** Docker, Docker Compose, Cloud.ru Artifact Registry, Cloud.ru 
+- **Машинное обучение:** Python  3.10 
+- **CI/CD:** GitHub Actions
+- **Сетевые технологии:** SSH, CORS
 
 ## Участники команды  
 1. **[Армишев Кирилл Константинович](https://github.com/armishev)**  
