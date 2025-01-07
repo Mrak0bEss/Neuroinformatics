@@ -1,5 +1,5 @@
 # Bears, bees and beer   
-**Проект по дисциплине "Нейроинформатика"**
+**Проект по дисциплине "Нейроинформатика"** // 
 [Презентация к проекту](https://www.figma.com/slides/w9Q6xgY01ICchMykVvEnnR/%D0%9D%D0%B5%D0%B9%D1%80%D0%BE%D0%B8%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0?node-id=1-25&t=RTVsNj41EZTGXNTC-1)
 
 **Описание проекта**  
