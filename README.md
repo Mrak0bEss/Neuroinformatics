@@ -22,7 +22,7 @@ Bears, bees and beer  — это приложение, которое помог
 **Фронтенд:** Django
 **Контейнеризация и инфраструктура:** Docker, Docker Compose, Cloud.ru Artifact Registry, Cloud.ru 
 **Машинное обучение:** Python  3.10 
-**CI/CD:** GitHub Actions,
+**CI/CD:** GitHub Actions
 **Сетевые технологии:** SSH, CORS
 
 ## Участники команды  
