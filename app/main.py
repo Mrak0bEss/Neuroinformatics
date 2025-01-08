@@ -89,20 +89,21 @@ async def recommend_beers(user_data: UserData, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ошибка предсказания: {str(e)}")
 
-    top_5_indices = predictions_proba.argsort()[-5:][::-1]
-    top_5_beers = [int(idx) for idx in top_5_indices]
+    top_5_indices = predictions_proba.argsort()[-5:][::-1] 
+    top_5_beers = [int(idx) for idx in top_5_indices]       
 
     beers_in_db = db.query(Beer).filter(Beer.model_id.in_(top_5_beers)).all()
+
+    last_beer_id = top_5_beers[-1]  
     recommendations = [
         {
-            "beer_id": beer_id,
-            "beer_name": f"Пиво {beer_id}",
+            "beer_id": last_beer_id,
+            "beer_name": f"Пиво {last_beer_id}",
             "availability": [
                 {"name": beer.name, "type": beer.beer_type, "stock": beer.stock}
-                for beer in beers_in_db if beer.model_id == beer_id
+                for beer in beers_in_db if beer.model_id == last_beer_id
             ],
         }
-        for beer_id in top_5_beers
     ]
 
     return {"recommendations": recommendations}
